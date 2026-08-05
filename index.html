@@ -197,7 +197,7 @@
 </div>
 
 <script>
-function calcular() {
+function atualizar(mostrarErro) {
   const tara = parseFloat(document.getElementById('tara').value);
   const qtde = parseFloat(document.getElementById('qtde').value);
   const pesoTotal = parseFloat(document.getElementById('pesoTotal').value);
@@ -205,7 +205,7 @@ function calcular() {
   const erro = document.getElementById('erro');
 
   if (isNaN(tara) || isNaN(qtde) || isNaN(pesoTotal) || tara < 0 || qtde < 0 || pesoTotal < 0) {
-    erro.classList.add('show');
+    erro.classList.toggle('show', !!mostrarErro);
     document.getElementById('taraTotal').textContent = '-';
     document.getElementById('pesoBruto').textContent = '-';
     document.getElementById('pesoLiquido').textContent = '-';
@@ -221,6 +221,16 @@ function calcular() {
   document.getElementById('pesoBruto').textContent = pesoTotal.toLocaleString('pt-BR', { maximumFractionDigits: 3 }) + ' kg';
   document.getElementById('pesoLiquido').textContent = pesoLiquido.toLocaleString('pt-BR', { maximumFractionDigits: 3 }) + ' kg';
 }
+
+function calcular() {
+  atualizar(true);
+}
+
+['tara', 'qtde', 'pesoTotal'].forEach(function (id) {
+  document.getElementById(id).addEventListener('input', function () {
+    atualizar(false);
+  });
+});
 </script>
 </body>
 </html>
