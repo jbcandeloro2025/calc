@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+CiAgPHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMyZjdhNGQiLz4KICA8ZyBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj4KICAgIDxsaW5lIHgxPSIzMiIgeTE9IjEyIiB4Mj0iMzIiIHkyPSI0OCIvPgogICAgPGxpbmUgeDE9IjE1IiB5MT0iMTkiIHgyPSI0OSIgeTI9IjE5Ii8+CiAgICA8cGF0aCBkPSJNMTUgMTkgTDkgMzMgYTcuNSA3LjUgMCAwIDAgMTIgMCBaIi8+CiAgICA8cGF0aCBkPSJNNDkgMTkgTDQzIDMzIGE3LjUgNy41IDAgMCAwIDEyIDAgWiIvPgogICAgPGxpbmUgeDE9IjIyIiB5MT0iNTEiIHgyPSI0MiIgeTI9IjUxIi8+CiAgPC9nPgo8L3N2Zz4=">
+<title>Calculadora de Tara - FLV</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f4f6f5;
+    --card: #ffffff;
+    --text: #1c2321;
+    --muted: #6b7570;
+    --primary: #2f7a4d;
+    --primary-dark: #235c3a;
+    --border: #dfe5e2;
+    --danger: #b3391f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141816;
+      --card: #1e2422;
+      --text: #eef1ef;
+      --muted: #9aa5a0;
+      --primary: #4caf7d;
+      --primary-dark: #3c8f65;
+      --border: #2c3532;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    padding: 24px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+  h1 {
+    font-size: 1.4rem;
+    margin: 0 0 4px;
+  }
+  p.subtitle {
+    margin: 0 0 24px;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--muted);
+  }
+  .field {
+    margin-bottom: 16px;
+  }
+  input[type="number"] {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    font-size: 1rem;
+  }
+  input[type="number"]:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+  button {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
+    background: var(--primary);
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: background 0.15s ease;
+  }
+  button:hover { background: var(--primary-dark); }
+  .result {
+    margin-top: 22px;
+    padding: 18px;
+    border-radius: 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    display: none;
+  }
+  .result.show { display: block; }
+  .result-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .result-final {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+  }
+  .result-final .label {
+    font-weight: 600;
+  }
+  .result-final .value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+  }
+  .error {
+    color: var(--danger);
+    font-size: 0.85rem;
+    margin-top: 10px;
+    display: none;
+  }
+  .error.show { display: block; }
+  .footer {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .footer a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Calculadora de Tara - FLV</h1>
+  <p class="subtitle">Calcule o peso líquido descontando a tara das embalagens</p>
+
+  <div class="field">
+    <label for="tara">Tara por embalagem (kg)</label>
+    <input type="number" id="tara" placeholder="Ex: 2" step="any" min="0">
+  </div>
+
+  <div class="field">
+    <label for="qtde">Quantidade de embalagens</label>
+    <input type="number" id="qtde" placeholder="Ex: 4" step="1" min="0">
+  </div>
+
+  <div class="field">
+    <label for="pesoTotal">Peso total bruto (kg)</label>
+    <input type="number" id="pesoTotal" placeholder="Ex: 20" step="any" min="0">
+  </div>
+
+  <button type="button" onclick="calcular()">Calcular</button>
+
+  <div class="error" id="erro">Preencha todos os campos com valores válidos.</div>
+
+  <div class="result" id="resultado">
+    <div class="result-row">
+      <span>Tara total</span>
+      <span id="taraTotal">-</span>
+    </div>
+    <div class="result-row">
+      <span>Peso bruto</span>
+      <span id="pesoBruto">-</span>
+    </div>
+    <div class="result-final">
+      <span class="label">Peso líquido</span>
+      <span class="value" id="pesoLiquido">-</span>
+    </div>
+  </div>
+
+  <footer class="footer">Powered by <a href="https://jbcode.com.br" target="_blank" rel="noopener">JB Code</a></footer>
+</div>
+
+<script>
+function calcular() {
+  const tara = parseFloat(document.getElementById('tara').value);
+  const qtde = parseFloat(document.getElementById('qtde').value);
+  const pesoTotal = parseFloat(document.getElementById('pesoTotal').value);
+
+  const erro = document.getElementById('erro');
+  const resultado = document.getElementById('resultado');
+
+  if (isNaN(tara) || isNaN(qtde) || isNaN(pesoTotal) || tara < 0 || qtde < 0 || pesoTotal < 0) {
+    erro.classList.add('show');
+    resultado.classList.remove('show');
+    return;
+  }
+
+  erro.classList.remove('show');
+
+  const taraTotal = tara * qtde;
+  const pesoLiquido = pesoTotal - taraTotal;
+
+  document.getElementById('taraTotal').textContent = taraTotal.toLocaleString('pt-BR', { maximumFractionDigits: 3 }) + ' kg';
+  document.getElementById('pesoBruto').textContent = pesoTotal.toLocaleString('pt-BR', { maximumFractionDigits: 3 }) + ' kg';
+  document.getElementById('pesoLiquido').textContent = pesoLiquido.toLocaleString('pt-BR', { maximumFractionDigits: 3 }) + ' kg';
+
+  resultado.classList.add('show');
+}
+</script>
+</body>
+</html>
