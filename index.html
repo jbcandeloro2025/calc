@@ -104,14 +104,12 @@
   }
   button:hover { background: var(--primary-dark); }
   .result {
-    margin-top: 22px;
+    margin-bottom: 22px;
     padding: 18px;
     border-radius: 12px;
     background: var(--bg);
     border: 1px solid var(--border);
-    display: none;
   }
-  .result.show { display: block; }
   .result-row {
     display: flex;
     justify-content: space-between;
@@ -161,6 +159,21 @@
   <h1>Calculadora de Tara - FLV</h1>
   <p class="subtitle">Calcule o peso líquido descontando a tara das embalagens</p>
 
+  <div class="result" id="resultado">
+    <div class="result-row">
+      <span>Tara total</span>
+      <span id="taraTotal">-</span>
+    </div>
+    <div class="result-row">
+      <span>Peso bruto</span>
+      <span id="pesoBruto">-</span>
+    </div>
+    <div class="result-final">
+      <span class="label">Peso líquido</span>
+      <span class="value" id="pesoLiquido">-</span>
+    </div>
+  </div>
+
   <div class="field">
     <label for="tara">Tara por embalagem (kg)</label>
     <input type="number" id="tara" placeholder="Ex: 2" step="any" min="0" inputmode="decimal">
@@ -180,21 +193,6 @@
 
   <div class="error" id="erro">Preencha todos os campos com valores válidos.</div>
 
-  <div class="result" id="resultado">
-    <div class="result-row">
-      <span>Tara total</span>
-      <span id="taraTotal">-</span>
-    </div>
-    <div class="result-row">
-      <span>Peso bruto</span>
-      <span id="pesoBruto">-</span>
-    </div>
-    <div class="result-final">
-      <span class="label">Peso líquido</span>
-      <span class="value" id="pesoLiquido">-</span>
-    </div>
-  </div>
-
   <footer class="footer">Powered by <a href="https://jbcode.com.br" target="_blank" rel="noopener">JB Code</a></footer>
 </div>
 
@@ -205,11 +203,12 @@ function calcular() {
   const pesoTotal = parseFloat(document.getElementById('pesoTotal').value);
 
   const erro = document.getElementById('erro');
-  const resultado = document.getElementById('resultado');
 
   if (isNaN(tara) || isNaN(qtde) || isNaN(pesoTotal) || tara < 0 || qtde < 0 || pesoTotal < 0) {
     erro.classList.add('show');
-    resultado.classList.remove('show');
+    document.getElementById('taraTotal').textContent = '-';
+    document.getElementById('pesoBruto').textContent = '-';
+    document.getElementById('pesoLiquido').textContent = '-';
     return;
   }
 
@@ -221,8 +220,6 @@ function calcular() {
   document.getElementById('taraTotal').textContent = taraTotal.toLocaleString('pt-BR', { maximumFractionDigits: 3 }) + ' kg';
   document.getElementById('pesoBruto').textContent = pesoTotal.toLocaleString('pt-BR', { maximumFractionDigits: 3 }) + ' kg';
   document.getElementById('pesoLiquido').textContent = pesoLiquido.toLocaleString('pt-BR', { maximumFractionDigits: 3 }) + ' kg';
-
-  resultado.classList.add('show');
 }
 </script>
 </body>
